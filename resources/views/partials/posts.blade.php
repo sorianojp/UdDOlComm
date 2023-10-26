@@ -17,13 +17,14 @@
             </div>
         </form>
         <div>
-            <x-subtitle>
+            <div class="flex items-center space-x-2">
                 @if ($post->community)
-                    {{ $post->community->name }} /
+                    <x-title-sm>{{ $post->community->name }}</x-title-sm>
                 @else
+                    <x-title-sm>For All</x-title-sm>
                 @endif
-                 Posted by {{ $post->user->name }} {{ $post->created_at->diffForHumans() }}
-            </x-subtitle>
+                <x-subtitle>Posted by {{ $post->user->name }} {{ $post->created_at->diffForHumans() }}</x-subtitle>
+            </div>
             <x-title>{{ $post->title }}</x-title>
             <x-body>{{ $post->body }}</x-body>
             <div class="pt-4">

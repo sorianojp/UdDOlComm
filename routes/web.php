@@ -20,6 +20,8 @@ use App\Http\Controllers\CommunityController;
 */
 
 Route::middleware('auth')->group(function () {
+    Route::get('/communities/{community}/posts/create', [CommunityController::class, 'communityPostCreate'])->name('communityPostCreate');
+    Route::post('/communities/{community}/posts', [CommunityController::class, 'communityPostStore'])->name('communityPostStore');
     Route::get('/communities-home', [HomeController::class, 'communities'])->name('communities');
     Route::resource('communities', CommunityController::class);
     Route::post('/communities/{community}/join', [CommunityController::class, 'joinCommunity'])->name('joinCommunity');

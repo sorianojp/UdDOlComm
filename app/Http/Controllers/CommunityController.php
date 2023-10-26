@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Community;
+use App\Models\Post;
 
 class CommunityController extends Controller
 {
@@ -56,5 +57,29 @@ class CommunityController extends Controller
         return back()->with('error', 'You are not a member of this community.');
     }
 
+    public function communityPostCreate(Community $community)
+    {
+        return view('communities.communityPostCreate', compact('community'));
+    }
+    public function communityPostStore(Request $request, Community $community)
+    {
+        $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+        ]);
 
+        $post = new Post([
+            'title' => $request->input('title'),
+            'body' => $request->input('body'),
+        ]);
+
+        // Associate the post with the community
+        $post->community()->associate($community);
+        // Associate the post with the currently authenticated user
+        $post->user()->associate(auth()->user());
+
+        $post->save();
+
+        return redirect()->route('communities.show', $community)->with('success', 'Posted!');
+    }
 }

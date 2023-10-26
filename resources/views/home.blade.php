@@ -35,7 +35,7 @@
                         <div class="bg-gray-200 p-2 rounded my-2 hover:shadow">
                             <x-title-xs class="hover:underline">{{ $community->name }}</x-title-xs>
                             <x-subtitle>
-                                Mmebers: {{ $community->members->count() }}
+                                Memebers: {{ $community->members->count() }}
                             </x-subtitle>
                         </div>
                     </a>

@@ -35,7 +35,7 @@
     <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
         <div class="lg:flex space-x-2">
             <div class="lg:w-3/4">
-                @include('partials.create-post')
+                @include('partials.create-community-post')
                 @foreach ($community->posts as $post)
                     <a href="{{ route('posts.show', $post->id) }}">
                         @include('partials.posts')

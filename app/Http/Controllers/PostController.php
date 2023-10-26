@@ -15,7 +15,9 @@ class PostController extends Controller
     public function create()
     {
         $user = auth()->user();
-        $communities = $user->communities;
+        $userCommunities = $user->communities;
+        $createdCommunities = $user->createdCommunities;
+        $communities = $userCommunities->merge($createdCommunities);
         return view('posts.create', compact('communities'));
     }
     public function store(Request $request)
@@ -28,12 +30,10 @@ class PostController extends Controller
             'title' => $request->input('title'),
             'body' => $request->input('body'),
         ]);
-        if ($request->input('community_id')) {
-            $community = Community::find($request->input('community_id'));
-            if ($community->members->contains(auth()->user())) {
-                $post->community()->associate($community);
-            }
-        }
+
+        $community = Community::find($request->input('community_id'));
+        $post->community()->associate($community);
+
         auth()->user()->posts()->save($post);
         return redirect()->route('posts.index')->with('success','Posted!');
     }
