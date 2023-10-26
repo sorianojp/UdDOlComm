@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('myPosts')" :active="request()->routeIs('myPosts')">
                         {{ __('My Posts') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('communities')" :active="request()->routeIs('communities')">
+                        {{ __('Communities') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -75,6 +78,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('myPosts')" :active="request()->routeIs('myPosts')">
                 {{ __('My Posts') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('communities')" :active="request()->routeIs('communities')">
+                {{ __('Communities') }}
             </x-responsive-nav-link>
         </div>
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\CommunityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,10 @@ use App\Http\Controllers\VoteController;
 */
 
 Route::middleware('auth')->group(function () {
+    Route::get('/communities-home', [HomeController::class, 'communities'])->name('communities');
+    Route::resource('communities', CommunityController::class);
+    Route::post('/communities/{community}/join', [CommunityController::class, 'joinCommunity'])->name('joinCommunity');
+    Route::post('/communities/{community}/leave', [CommunityController::class, 'leaveCommunity'])->name('leaveCommunity');
     Route::post('/posts/{post}/vote', [VoteController::class, 'vote'])->name('vote');
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/my-posts', [HomeController::class, 'myPosts'])->name('myPosts');
