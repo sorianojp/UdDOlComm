@@ -17,6 +17,12 @@
 <form action="{{ route('posts.store') }}" method="POST">
     @csrf
     <div class="space-y-2">
+        <select name="community_id">
+            <option value="">No Community</option>
+            @foreach ($communities as $community)
+                <option value="{{ $community->id }}">{{ $community->name }}</option>
+            @endforeach
+        </select>
         <x-input type="text" class="w-full" name="title" placeholder="Title"/>
         <x-textarea class="w-full" rows="6" name="body" placeholder="Body"></x-textarea>
         <div class="flex justify-end">

@@ -17,7 +17,13 @@
             </div>
         </form>
         <div>
-            <x-subtitle>Posted by {{ $post->user->name }} {{ $post->created_at->diffForHumans() }}</x-subtitle>
+            <x-subtitle>
+                @if ($post->community)
+                    {{ $post->community->name }} /
+                @else
+                @endif
+                 Posted by {{ $post->user->name }} {{ $post->created_at->diffForHumans() }}
+            </x-subtitle>
             <x-title>{{ $post->title }}</x-title>
             <x-body>{{ $post->body }}</x-body>
             <div class="pt-4">

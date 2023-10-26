@@ -36,6 +36,11 @@
         <div class="lg:flex space-x-2">
             <div class="lg:w-3/4">
                 @include('partials.create-post')
+                @foreach ($community->posts as $post)
+                    <a href="{{ route('posts.show', $post->id) }}">
+                        @include('partials.posts')
+                    </a>
+                @endforeach
             </div>
             <div class="lg:w-1/4 hidden lg:block">
                 <x-card>

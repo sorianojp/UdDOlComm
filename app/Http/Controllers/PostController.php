@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Community;
 
 class PostController extends Controller
 {
@@ -13,7 +14,9 @@ class PostController extends Controller
     }
     public function create()
     {
-        return view('posts.create');
+        $user = auth()->user();
+        $communities = $user->communities;
+        return view('posts.create', compact('communities'));
     }
     public function store(Request $request)
     {
@@ -21,11 +24,17 @@ class PostController extends Controller
             'title' => 'required',
             'body' => 'required',
         ]);
-        Post::create([
+        $post = new Post([
             'title' => $request->input('title'),
             'body' => $request->input('body'),
-            'user_id' => auth()->user()->id,
         ]);
+        if ($request->input('community_id')) {
+            $community = Community::find($request->input('community_id'));
+            if ($community->members->contains(auth()->user())) {
+                $post->community()->associate($community);
+            }
+        }
+        auth()->user()->posts()->save($post);
         return redirect()->route('posts.index')->with('success','Posted!');
     }
     public function show(Post $post)
