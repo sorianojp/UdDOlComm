@@ -2,25 +2,35 @@
     <x-slot name="header">
         {{ __('Home') }}
     </x-slot>
-<div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-    <x-card class="mb-4 hover:shadow">
-        <a href="{{ route('posts.create') }}">
-            <x-input type="text" class="w-full" placeholder="Create Post"/>
-        </a>
-    </x-card>
-    @foreach ($posts as $post)
-    <a href="{{ route('posts.show', $post->id) }}">
-        <x-card class="my-4 hover:shadow">
-            <x-subtitle>Posted by {{ $post->user->name }} {{ $post->created_at->diffForHumans() }}</x-subtitle>
-            <x-title>{{ $post->title }}</x-title>
-            <x-body>{{ $post->body }}</x-body>
-            <div class="pt-4">
-                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2">
-                    {{ $post->comments->count() }} Comments
-                </span>
+    <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+        <div class="lg:flex space-x-2">
+            <div class="lg:w-3/4">
+                @include('partials.create-post')
+                @foreach ($posts as $post)
+                <a href="{{ route('posts.show', $post->id) }}">
+                    @include('partials.posts')
+                </a>
+                @endforeach
             </div>
-        </x-card>
-    </a>
-    @endforeach
-</div>
+            <div class="lg:w-1/4 hidden lg:block">
+                <x-card>
+                    <x-title-md class="uppercase mb-2">Recent Posts</x-title-md>
+                    @foreach ($latestPosts as $post)
+                    <a href="{{ route('posts.show', $post->id) }}">
+                        <div class="border-b border-gray-900 dark:border-gray-200 my-1">
+                            <x-title-xs class="hover:underline">{{ $post->title }}</x-title-xs>
+                            <x-subtitle>
+                                {{ $post->comments->count() }} Comments
+                                ·
+                                {{ $post->created_at->diffForHumans() }}
+                            </x-subtitle>
+                        </div>
+                    </a>
+                    @endforeach
+                </x-card>
+            </div>
+        </div>
+    </div>
+
+
 </x-app-layout>

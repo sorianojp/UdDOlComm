@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\VoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ use App\Http\Controllers\CommentController;
 */
 
 Route::middleware('auth')->group(function () {
+    Route::post('/posts/{post}/vote', [VoteController::class, 'vote'])->name('vote');
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/my-posts', [HomeController::class, 'myPosts'])->name('myPosts');
     Route::resource('posts', PostController::class);

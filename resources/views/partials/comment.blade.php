@@ -19,10 +19,10 @@
             <x-primary-button type="submit">Reply</x-primary-button>
         </div>
     </form>
-    
-    <div class="border-l-2 border-gray-300 pl-4">
+
+    <div class="border-l-2 border-gray-300 dark:border-gray-600 pl-4">
         @foreach ($comment->replies as $reply)
-            @include('posts.comment', ['comment' => $reply])
+            @include('partials.comment', ['comment' => $reply])
         @endforeach
     </div>
 </div>

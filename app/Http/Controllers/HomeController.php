@@ -8,12 +8,14 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $latestPosts = Post::latest()->take(5)->get();
         $posts = Post::all();
-        return view('home', compact('posts'));
+        return view('home', compact('posts', 'latestPosts'));
     }
     public function myPosts()
     {
-        $myposts = Post::latest()->paginate(10);
-        return view('my-posts', compact('myposts'))->with('i', (request()->input('page', 1) -1) * 10);
+        $user = auth()->user();
+        $myposts = $user->posts()->latest()->paginate(5);
+        return view('my-posts', compact('myposts'))->with('i', (request()->input('page', 1) -1) * 5);
     }
 }
