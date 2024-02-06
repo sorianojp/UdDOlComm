@@ -19,6 +19,13 @@
                 <div class="space-y-2">
                     <x-input type="text" class="w-full" name="name" placeholder="Name"/>
                     <x-textarea class="w-full" name="description" rows="4" placeholder="Description"></x-textarea>
+                    <div>
+                        <label>Community Type</label>
+                        <select name="is_private" required>
+                            <option value="0">Public</option>
+                            <option value="1">Private</option>
+                        </select>
+                    </div>
                     <div class="flex justify-end">
                         <x-primary-button type="submit">Create</x-primary-button>
                     </div>

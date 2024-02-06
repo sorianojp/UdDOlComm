@@ -9,7 +9,7 @@ class Community extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'user_id'];
+    protected $fillable = ['name', 'description', 'user_id', 'is_private'];
 
     public function creator()
     {
@@ -17,7 +17,7 @@ class Community extends Model
     }
     public function members()
     {
-        return $this->belongsToMany(User::class, 'community_user', 'community_id', 'user_id');
+        return $this->belongsToMany(User::class, 'community_user', 'community_id', 'user_id')->withPivot('status');
     }
     public function posts()
     {

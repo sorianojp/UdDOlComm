@@ -20,6 +20,9 @@ use App\Http\Controllers\CommunityController;
 */
 
 Route::middleware('auth')->group(function () {
+    Route::post('/communities/{community}/kick/{user}', [CommunityController::class, 'kick'])->name('communities.kick');
+    Route::post('/communities/{community}/approve/{user}', [CommunityController::class, 'approve'])->name('communities.approve');
+    Route::post('/communities/{community}/reject/{user}', [CommunityController::class, 'reject'])->name('communities.reject');
     Route::get('/communities/{community}/posts/create', [CommunityController::class, 'communityPostCreate'])->name('communityPostCreate');
     Route::post('/communities/{community}/posts', [CommunityController::class, 'communityPostStore'])->name('communityPostStore');
     Route::get('/communities-home', [HomeController::class, 'communities'])->name('communities');

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id'); // Creator of the community
             $table->string('name');
             $table->text('description');
+            $table->boolean('is_private')->default(false);
             $table->timestamps();
         });
     }

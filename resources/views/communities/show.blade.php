@@ -50,13 +50,39 @@
                     <div class="flex items-center space-x-2">
                         <x-title-sm>{{ $community->creator->name }}</x-title-sm>
                         @if ($community->user_id === auth()->user()->id)
-                        <x-primary-badge>You</x-primary-badge>
+                            <x-primary-badge>You</x-primary-badge>
                         @else
-                        <x-primary-badge>Creator</x-primary-badge>
+                            <x-primary-badge>Creator</x-primary-badge>
                         @endif
                     </div>
+                    <x-title-md>For Approval</x-title-md>
                     @foreach ($members as $member)
-                        <x-title-xs>{{ $member->name }}</x-title-xs>
+                        @if ($member->pivot->status === 'approved')
+                            <x-title-sm>{{ $member->name }}</x-title-sm>
+                            @if ($community->user_id === auth()->user()->id)
+                                <form action="{{ route('communities.kick', ['community' => $community, 'user' => $member]) }}" method="post">
+                                    @csrf
+                                    <x-primary-button-xs type="submit">Kick</x-primary-button-xs>
+                                </form>
+                            @endif
+                        @endif
+                        @if ($member->pivot->status === 'pending')
+                            <x-title-sm>
+                                {{ $member->name }}
+                                @if ($community->user_id === auth()->user()->id)
+                                    <div class="flex space-x-2">
+                                        <form method="post" action="{{ route('communities.approve', ['community' => $community, 'user' => $member]) }}">
+                                            @csrf
+                                            <x-primary-button-xs type="submit">Approve</x-primary-button-xs>
+                                        </form>
+                                        <form method="post" action="{{ route('communities.reject', ['community' => $community, 'user' => $member]) }}">
+                                            @csrf
+                                            <x-primary-button-xs type="submit">Reject</x-primary-button-xs>
+                                        </form>
+                                    </div>
+                                @endif
+                            </x-title-sm>
+                        @endif
                     @endforeach
                 </x-card>
             </div>

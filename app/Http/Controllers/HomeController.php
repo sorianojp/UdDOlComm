@@ -9,12 +9,24 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $latestPosts = Post::latest()->take(5)->get();
+        $latestPosts = Post::where(function($query) {
+            $query->whereHas('community', function ($query) {
+                $query->where('is_private', false);
+            })->orWhere(function ($query) {
+                $query->doesntHave('community');
+            });
+        })->latest()->take(5)->get();
         $communities = Community::withCount('members')
         ->orderBy('members_count', 'desc')
         ->take(5)
         ->get();
-        $posts = Post::all();
+        $posts = Post::where(function($query) {
+            $query->whereHas('community', function ($query) {
+                $query->where('is_private', false);
+            })->orWhere(function ($query) {
+                $query->doesntHave('community');
+            });
+        })->get();
         return view('home', compact('posts', 'latestPosts', 'communities'));
     }
     public function communities()
